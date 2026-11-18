@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KKA: Misi Auditor Muda</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#0b1220;font-family:Segoe UI,Arial,sans-serif;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:#f4f7fb;color:#12202f;display:flex;flex-direction:column;overflow:hidden}
+header{height:64px;background:#12355b;color:#fff;display:flex;align-items:center;padding:0 28px;gap:24px;font-size:22px;font-weight:600}
+header .sp{flex:1}header span.b{background:#fff;color:#12355b;border-radius:20px;padding:4px 16px;font-size:20px}
+main{flex:1;padding:24px 48px;overflow:auto}
+h1{font-size:46px;margin:0 0 12px;color:#12355b}h2{font-size:30px;margin:0 0 14px;color:#12355b}p,li{font-size:23px;line-height:1.45}
+.btn{min-height:56px;padding:10px 28px;font-size:24px;font-weight:600;border:0;border-radius:12px;background:#0b6e4f;color:#fff;cursor:pointer}
+.btn:hover{background:#085a41}.btn.alt{background:#fff;color:#12355b;border:3px solid #12355b}
+footer{height:84px;display:flex;align-items:center;gap:16px;padding:0 48px;background:#e3eaf3}
+footer .sp{flex:1}
+#fb{flex:1;font-size:22px;font-weight:600;padding:10px 16px;border-radius:10px;min-height:56px;display:flex;align-items:center}
+.ok{background:#d4f1e0;color:#0a4d33}.no{background:#fbdada;color:#7a1414}.nt{background:#fff3cd;color:#5c4400}
+.opt{display:block;width:100%;text-align:left;margin:10px 0;padding:14px 20px;font-size:23px;border:3px solid #9db3cc;border-radius:12px;background:#fff;color:#12202f;cursor:pointer;min-height:58px}
+.opt:hover{border-color:#12355b}.opt.good{background:#d4f1e0;border-color:#0b6e4f}.opt.bad{background:#fbdada;border-color:#b42318}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:20px}
+.lv{background:#fff;border:3px solid #12355b;border-radius:16px;padding:16px;text-align:center;cursor:pointer;min-height:230px}
+.lv:hover{background:#e8f0fa}.lv .n{font-size:54px;font-weight:700;color:#0b6e4f}.lv .t{font-size:21px;font-weight:600}.lv .s{font-size:20px;margin-top:8px}
+.cols{display:flex;gap:40px}.col{flex:1}
+.it{padding:14px 18px;margin:10px 0;border:3px solid #9db3cc;border-radius:12px;background:#fff;font-size:22px;cursor:pointer;min-height:58px}
+.it.sel{border-color:#12355b;background:#dbe8f7}.it.done{background:#d4f1e0;border-color:#0b6e4f;cursor:default}
+.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.doc{background:#fff;border:2px solid #12355b;border-radius:8px;padding:12px 18px;font-size:21px;margin-bottom:12px}
+input[type=text]{font-size:26px;padding:10px 14px;border:3px solid #9db3cc;border-radius:10px;width:360px}
+.bar{height:14px;background:#cbd7e5;border-radius:8px;margin-bottom:14px}.bar i{display:block;height:100%;background:#0b6e4f;border-radius:8px}
+table{border-collapse:collapse;font-size:21px}td,th{border:2px solid #12355b;padding:6px 14px}
+</style></head><body><div id="stage"><header id="hd"></header><main id="mn"></main><footer id="ft"></footer></div>
+<script>
+const $=id=>document.getElementById(id);
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);$('stage').style.transform='translate(-50%,-50%) scale('+s+')'}
+addEventListener('resize',fit);fit();
+let ac;function beep(ok){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=ok?740:200;g.gain.value=.08;o.start();o.stop(ac.currentTime+(ok?.15:.3))}catch(e){}}
+const LIVES=5;
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const L=[
+{t:'Mengenal KKA',d:'Fungsi dan tujuan',steps:[
+{k:'mcq',q:'Apa kepanjangan KKA dalam pekerjaan audit?',o:['Kertas Kerja Audit','Kartu Kontrol Akun','Kode Kas Akuntansi'],a:0,e:'KKA adalah Kertas Kerja Audit, yaitu catatan auditor tentang prosedur, bukti, dan kesimpulan audit.'},
+{k:'mcq',q:'Fungsi utama KKA bagi auditor adalah ...',o:['Menghias laporan keuangan','Mendukung opini dan membuktikan prosedur sudah dilakukan','Menggantikan jurnal umum perusahaan'],a:1,e:'KKA menjadi bukti kerja auditor sehingga opini atau kesimpulan dapat dipertanggungjawabkan.'},
+{k:'mcq',q:'Siapa pemilik KKA yang disusun oleh auditor?',o:['Klien yang diaudit','Bank','Kantor atau auditor yang menyusunnya'],a:2,e:'KKA adalah milik auditor atau kantor audit, sedangkan bukti asli tetap milik klien.'}]},
+{t:'Unsur KKA',d:'Cocokkan komponen',steps:[
+{k:'match',q:'Pasangkan unsur KKA dengan fungsinya. Klik kiri, lalu klik kanan.',p:[['Judul dan nama klien','Menunjukkan akun dan entitas yang diaudit'],['Nomor indeks','Memudahkan pencarian dan rujuk silang'],['Paraf dan tanggal','Menunjukkan penyusun dan waktu pengerjaan'],['Kesimpulan','Hasil akhir pengujian audit']]}]},
+{t:'Tanda Audit',d:'Kenali simbol',steps:[
+{k:'match',q:'Pasangkan tanda audit (tickmark) dengan artinya.',p:[['✓','Sudah dicocokkan dengan dokumen pendukung'],['F','Penjumlahan sudah dicek ulang (footed)'],['C','Saldo sudah dikonfirmasi pihak ketiga'],['⊗','Ada selisih, perlu tindak lanjut']]}]},
+{t:'Menyusun KKA',d:'Urutkan langkah',steps:[
+{k:'order',q:'Urutkan langkah menyusun KKA dari yang pertama. Klik langkah sesuai urutan.',s:['Tulis judul, klien, periode, dan nomor indeks','Catat tujuan dan prosedur audit','Lakukan pengujian dan beri tanda audit','Tulis temuan dan kesimpulan','Paraf, beri tanggal, lalu direviu supervisor']}]},
+{t:'Kasus Kas',d:'Rekonsiliasi bank',steps:[
+{k:'case',q:'Studi kasus: PT Maju Jaya. Saldo kas menurut buku Rp52.000.000; saldo menurut rekening koran Rp55.500.000. Cek Rp4.000.000 belum dicairkan; biaya admin bank Rp500.000 belum dicatat perusahaan. Berapa saldo kas yang benar (disesuaikan)? Ketik angka tanpa titik.',ans:['51500000'],e:'Bank: 55.500.000 − 4.000.000 = 51.500.000. Buku: 52.000.000 − 500.000 = 51.500.000. Keduanya sama.'},
+{k:'mcq',q:'Setelah selisih cocok, apa yang paling tepat ditulis auditor di KKA?',o:['Tidak perlu dicatat karena selisih sudah cocok','Rincian rekonsiliasi, tanda audit, dan kesimpulan bahwa saldo kas wajar','Hanya saldo akhir tanpa penjelasan'],a:1,e:'KKA harus memuat rincian, bukti, dan kesimpulan agar dapat ditelusuri reviewer.'}]}
+];
+let S={scr:'home',lives:LIVES,score:0,done:[],lv:0,st:0,locked:false};
+function head(){$('hd').innerHTML='<div>KKA: Misi Auditor Muda</div><div class="sp"></div>'+(S.scr=='play'?'<span class="b">Level '+(S.lv+1)+' dari 5</span><span class="b">Langkah '+(S.st+1)+' dari '+L[S.lv].steps.length+'</span>':'')+'<span class="b">❤ '+S.lives+'</span><span class="b">Skor '+S.score+'</span>'}
+function foot(l,r,msg){$('ft').innerHTML='<button class="btn alt" id="bk" '+(l?'':'style="visibility:hidden"')+'>◀ '+(l?l[0]:'')+'</button><div id="fb" class="nt">'+(msg||'')+'</div><button class="btn" id="nx" '+(r?'':'style="visibility:hidden"')+'>'+(r?r[0]:'')+' ▶</button>';if(l)$('bk').onclick=l[1];if(r)$('nx').onclick=r[1]}
+function fb(t,ok){const f=$('fb');f.className=ok?'ok':'no';f.textContent=t;beep(ok)}
+function go(s){S.scr=s;render()}
+function render(){head();const m=$('mn');
+if(S.scr=='home'){m.innerHTML='<h1 style="margin-top:80px;font-size:60px">KKA: Misi Auditor Muda</h1><p style="font-size:28px">Jadilah auditor junior! Selesaikan 5 level untuk menguasai Kertas Kerja Audit (KKA). Hati-hati, nyawamu terbatas.</p><p>Bidang keahlian: Bisnis dan Manajemen (Akuntansi dan Keuangan).</p>';foot(null,['Mulai',()=>go('guide')],'Siap bertugas?');}
+else if(S.scr=='guide'){m.innerHTML='<h2>Panduan Misi</h2><ul><li><b>Tujuan:</b> memahami fungsi, unsur, tanda audit, penyusunan, dan penerapan KKA.</li><li>Ada <b>5 level</b>. Kamu bebas memilih level di Menu Misi.</li><li>Jawaban benar: <b>+100 poin</b>. Jawaban salah: <b>−1 nyawa</b> (kamu punya '+LIVES+').</li><li>Level memuat pilihan ganda, mencocokkan, mengurutkan, dan studi kasus hitungan.</li><li>Setiap tindakan langsung mendapat umpan balik di bagian bawah layar.</li></ul><p>Soft skill yang dilatih: ketelitian, pengambilan keputusan, dan pemecahan masalah.</p>';foot(['Kembali',()=>go('home')],['Menu Misi',()=>go('menu')],'');}
+else if(S.scr=='menu'){m.innerHTML='<h2>Menu Misi</h2><p>Pilih level mana saja. Level selesai ditandai ✔.</p><div class="grid">'+L.map((l,i)=>'<div class="lv" tabindex="0" data-i="'+i+'"><div class="n">'+(i+1)+'</div><div class="t">'+l.t+'</div><div class="s">'+l.d+'</div><div class="s">'+(S.done.includes(i)?'✔ Selesai':'Belum selesai')+'</div></div>').join('')+'</div>';m.querySelectorAll('.lv').forEach(e=>e.onclick=()=>{S.lv=+e.dataset.i;S.st=0;go('play')});foot(['Panduan',()=>go('guide')],['Hasil',()=>go('result')],'Pilih level untuk mulai.');}
+else if(S.scr=='play')play();
+else if(S.scr=='gameover'){m.innerHTML='<h1 style="margin-top:80px">Nyawa Habis</h1><p>Jangan menyerah, auditor yang teliti belajar dari kesalahan. Skor kamu: '+S.score+'.</p>';foot(null,['Main Lagi',()=>{S={scr:'menu',lives:LIVES,score:0,done:[],lv:0,st:0};render()}],'');}
+else if(S.scr=='result'){const n=S.done.length;m.innerHTML='<h2>Hasil Misi</h2><p style="font-size:30px">Level selesai: <b>'+n+' dari 5</b> &nbsp; Skor: <b>'+S.score+'</b> &nbsp; Nyawa: <b>'+S.lives+'</b></p><p>'+(n==5?(S.lives>=4?'Predikat: Auditor Teliti. Kamu menguasai KKA dengan sangat baik.':'Predikat: Auditor Cakap. Ulangi level yang sering salah untuk lebih teliti.'):'Selesaikan semua level untuk mendapat predikat auditor.')+'</p><p>Ingat: KKA yang baik = tujuan jelas, bukti lengkap, tanda audit tepat, dan kesimpulan tertulis.</p>';foot(['Menu Misi',()=>go('menu')],['Informasi Kreator',()=>go('credit')],'');}
+else if(S.scr=='credit'){m.innerHTML='<h2>Informasi Kreator</h2><p>Kreator: <b>[Isi nama kreator, boleh dengan gelar]</b></p><p>Organisasi: <b>[Isi nama sekolah/institusi]</b></p><p>Aset: seluruh tampilan dibuat dengan kode HTML/CSS sendiri tanpa gambar atau URL eksternal. Efek suara dibuat dengan kode (tanpa berkas audio).</p>';foot(['Hasil',()=>go('result')],null,'');}
+}
+function play(){const lv=L[S.lv],s=lv.steps[S.st],m=$('mn');S.locked=false;
+const pct=(S.st/lv.steps.length)*100;
+let h='<div class="bar"><i style="width:'+pct+'%"></i></div><h2>Level '+(S.lv+1)+': '+lv.t+'</h2><p>'+s.q+'</p>';
+if(s.k=='mcq'){h+=s.o.map((o,i)=>'<button class="opt" data-i="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join('');m.innerHTML=h;
+m.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(S.locked)return;const i=+b.dataset.i;if(i==s.a){b.classList.add('good');S.locked=true;S.score+=100;head();fb('Benar! '+s.e,true);enable()}else{b.classList.add('bad');b.disabled=true;wrong('Belum tepat. Coba pilihan lain.')}})}
+else if(s.k=='match'){const R=sh(s.p.map((p,i)=>[p[1],i]));h+='<div class="cols"><div class="col">'+s.p.map((p,i)=>'<div class="it" data-l="'+i+'">'+p[0]+'</div>').join('')+'</div><div class="col">'+R.map(r=>'<div class="it" data-r="'+r[1]+'">'+r[0]+'</div>').join('')+'</div></div>';m.innerHTML=h;let sel=null,n=0;
+m.querySelectorAll('[data-l]').forEach(e=>e.onclick=()=>{if(e.classList.contains('done'))return;m.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel'));e.classList.add('sel');sel=e.dataset.l;$('fb').className='nt';$('fb').textContent='Sekarang klik pasangannya di kanan.'});
+m.querySelectorAll('[data-r]').forEach(e=>e.onclick=()=>{if(e.classList.contains('done'))return;if(sel===null){$('fb').textContent='Pilih item di kiri dulu.';return}
+if(e.dataset.r==sel){e.classList.add('done');const l=m.querySelector('[data-l="'+sel+'"]');l.classList.remove('sel');l.classList.add('done');sel=null;n++;S.score+=50;head();if(n==s.p.length){fb('Semua cocok! Kerja bagus.',true);S.locked=true;enable()}else fb('Pasangan benar!',true)}
+else{e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),300);wrong('Kurang tepat. Pikirkan lagi fungsi item tersebut.')}})}
+else if(s.k=='order'){const idx=sh(s.s.map((x,i)=>i));let nx=0;h+='<div class="cols"><div class="col"><b>Pilihan langkah:</b>'+idx.map(i=>'<div class="it" data-i="'+i+'">'+s.s[i]+'</div>').join('')+'</div><div class="col"><b>Urutan kamu:</b><div id="seq"></div></div></div>';m.innerHTML=h;
+m.querySelectorAll('[data-i]').forEach(e=>e.onclick=()=>{if(e.classList.contains('done'))return;if(+e.dataset.i==nx){e.classList.add('done');$('seq').innerHTML+='<div class="it done">'+(nx+1)+'. '+s.s[nx]+'</div>';nx++;S.score+=30;head();if(nx==s.s.length){fb('Urutan lengkap dan benar!',true);S.locked=true;enable()}else fb('Benar, lanjut ke langkah berikutnya.',true)}else{e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),300);wrong('Itu bukan langkah berikutnya. Mulai dari persiapan dokumen dulu.')}})}
+else if(s.k=='case'){h+='<table><tr><th>Menurut buku</th><th>Menurut bank</th></tr><tr><td>Saldo 52.000.000<br>Biaya admin −500.000</td><td>Saldo 55.500.000<br>Cek beredar −4.000.000</td></tr></table><p>Saldo wajar: Rp <input type="text" id="inp" inputmode="numeric"> <button class="btn" id="ck">Periksa</button></p>';m.innerHTML=h;
+$('ck').onclick=()=>{if(S.locked)return;const v=$('inp').value.replace(/\D/g,'');if(s.ans.includes(v)){S.locked=true;S.score+=150;head();fb('Benar! '+s.e,true);enable()}else wrong('Belum tepat. Sesuaikan kedua saldo, hasilnya harus sama.')}}
+const last=S.st==lv.steps.length-1;
+foot(S.st>0?['Langkah '+S.st,()=>{S.st--;render()}]:['Menu',()=>go('menu')],null,'Kerjakan tantangan di atas.');
+function enable(){$('nx').style.visibility='visible';$('nx').textContent=(last?'Selesai Level':'Berikutnya')+' ▶';$('nx').onclick=()=>{if(last){if(!S.done.includes(S.lv))S.done.push(S.lv);go(S.done.length==5?'result':'menu')}else{S.st++;render()}}}
+}
+function wrong(msg){S.lives--;head();fb(msg+' (−1 nyawa)',false);if(S.lives<=0)setTimeout(()=>go('gameover'),1200)}
+render();
+</script></body></html>
